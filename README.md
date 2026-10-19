@@ -3,7 +3,7 @@
 A software implementation of an Ethernet learning switch in modern C++ (C++20),
 built to understand how switching hardware processes frames at Layer 2.
 
-![CI](https://github.com/<your-username>/l2-switch/actions/workflows/ci.yml/badge.svg)
+[![CI](https://github.com/Sanjaeyss/l2-switch/actions/workflows/ci.yml/badge.svg)](https://github.com/Sanjaeyss/l2-switch/actions/workflows/ci.yml)
 
 ## Status
 
@@ -16,6 +16,22 @@ built to understand how switching hardware processes frames at Layer 2.
 | Switch forwarding engine: forward / flood / filter decisions | Next |
 | VLAN-aware ports (access / trunk), tag push & pop | Planned |
 | IPv4 routing with longest-prefix match (L3) | Planned |
+
+## Roadmap
+
+The project is built in small, tested steps. Each step lands with unit tests
+and passes CI before the next one starts.
+
+1. **Forwarding engine** (next). A `Switch` class takes `(ingress port, raw
+   frame)` and returns a decision: forward to one port, flood to every port
+   except the ingress port, or filter/drop. It filters when the destination is
+   on the ingress port or the frame is malformed. Broadcast, multicast and
+   unknown-unicast destinations are flooded.
+2. **VLAN-aware ports.** Access and trunk port modes, 802.1Q tag push/pop on
+   egress, and flooding restricted to ports that are members of the frame's VLAN.
+3. **Stretch goals.** IPv4 routing with longest-prefix match (binary trie),
+   then a SAI-style hardware abstraction layer, similar to how SONiC programs
+   switch ASICs through the Switch Abstraction Interface.
 
 ## How a learning switch works
 
